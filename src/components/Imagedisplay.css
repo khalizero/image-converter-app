@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  padding: 17px;
+  gap: 14px;
+  place-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
