@@ -26,6 +26,7 @@ import {
   Brightness4,
 } from "@mui/icons-material";
 import { useThemeContext } from "../context/ThemeContext";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -136,7 +137,7 @@ const Sidebar = ({ children }) => {
             <Menu />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            Image Conversion
           </Typography>
           <IconButton
             color="inherit"
@@ -171,29 +172,19 @@ const Sidebar = ({ children }) => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <Inbox /> : <Mail />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "defaultLink activeLink" : "defaultLink deactiveLink"
+            }
+          >
+            <ListItem disablePadding>
+              <ListItemIcon>
+                <Inbox />
+              </ListItemIcon>
+              <ListItemText primary={"Home"} />
             </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <Inbox /> : <Mail />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          </NavLink>
         </List>
       </Drawer>
       <Main open={open}>{children}</Main>
