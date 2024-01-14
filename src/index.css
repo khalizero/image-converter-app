@@ -27,10 +27,20 @@ body {
   background-color: #f1f1f1; /* Change this color to your desired background color */
 }
 
-/* For Firefox */
-/* Note: Firefox does not currently support styling the scrollbar track, only the thumb */
-/* It is recommended to use a browser-specific media query for Firefox, if needed */
+.activeLink {
+  text-decoration: none;
+  background-color: #42a5f5;
+  color: white;
+  font-weight: 900;
+}
 
-/* For Microsoft Edge and Internet Explorer */
-/* Note: Microsoft Edge and Internet Explorer do not currently support styling the scrollbar track, only the thumb */
-/* It is recommended to use a browser-specific media query for Edge/IE, if needed */
+.activeLink span {
+  font-weight: bold;
+}
+
+.defaultLink {
+  padding: 6px 8px;
+  display: flex;
+  margin: 10px;
+  border-radius: 8px;
+}

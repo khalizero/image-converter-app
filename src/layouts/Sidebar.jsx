@@ -26,6 +26,7 @@ import {
   Brightness4,
 } from "@mui/icons-material";
 import { useThemeContext } from "../context/ThemeContext";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -171,14 +172,19 @@ const Sidebar = ({ children }) => {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding>
-            <ListItemButton>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "defaultLink activeLink" : "defaultLink deactiveLink"
+            }
+          >
+            <ListItem disablePadding>
               <ListItemIcon>
                 <Inbox />
               </ListItemIcon>
               <ListItemText primary={"Home"} />
-            </ListItemButton>
-          </ListItem>
+            </ListItem>
+          </NavLink>
         </List>
       </Drawer>
       <Main open={open}>{children}</Main>

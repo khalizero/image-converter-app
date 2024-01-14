@@ -1,10 +1,10 @@
 import React from "react";
 import { PDFDocument } from "pdf-lib";
 import { Box, Button } from "@mui/material";
-
+import imageCompression from "browser-image-compression"; // Import the library
 import "./Imagedisplay.css";
 
-const Imagedisplay = ({ images, outputFormat }) => {
+const Imagedisplay = ({ images, outputFormat, compress }) => {
   const fileToArrBuffer = (file) =>
     new Promise((res, rej) => {
       const fileReader = new FileReader();
@@ -12,6 +12,19 @@ const Imagedisplay = ({ images, outputFormat }) => {
       fileReader.onerror = () => rej(fileReader.error);
       fileReader.readAsArrayBuffer(file);
     });
+
+  const compressImage = async (file) => {
+    try {
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 1, // You can adjust the maximum size
+        // maxWidthOrHeight: 800, // You can adjust the maximum width or height
+      });
+      return compressedFile;
+    } catch (error) {
+      console.error("Error compressing image:", error);
+      throw error;
+    }
+  };
 
   const downloadFile = async (blob, fileName) => {
     const URL = window.URL.createObjectURL(blob);
@@ -60,7 +73,13 @@ const Imagedisplay = ({ images, outputFormat }) => {
 
   const handleDownload = async (file, index) => {
     try {
-      const imageSrc = URL.createObjectURL(file);
+      let compressedImg = file;
+
+      if (compress) {
+        compressedImg = await compressImage(file);
+      }
+
+      const imageSrc = URL.createObjectURL(compressedImg);
       const image = new Image();
       image.src = imageSrc;
 
@@ -77,10 +96,8 @@ const Imagedisplay = ({ images, outputFormat }) => {
       }
 
       if (outputFormat === "pdf") {
-        embedImageInPdfAndDownload(file);
+        embedImageInPdfAndDownload(compressedImg);
       } else {
-        console.log(image.src);
-
         const a = document.createElement("a");
         a.href = image.src;
         a.download = `converted_image_${index}.${outputFormat}`;

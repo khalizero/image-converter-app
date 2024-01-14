@@ -7,6 +7,7 @@ import Imagedisplay from "../components/Imagedisplay";
 
 const Home = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [compress, setCompress] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [outputFormat, setOutputFormat] = useState("png");
 
@@ -35,11 +36,17 @@ const Home = () => {
                 images={uploadedImages}
                 outputFormat={outputFormat}
                 setOutputFormat={setOutputFormat}
+                compress={compress}
+                setCompress={setCompress}
               />
             </Grid>
           </Grid>
         </Paper>
-        <Imagedisplay images={uploadedImages} outputFormat={outputFormat} />
+        <Imagedisplay
+          images={uploadedImages}
+          outputFormat={outputFormat}
+          compress={compress}
+        />
       </Container>
     </Sidebar>
   );

@@ -1,10 +1,38 @@
-import React from "react";
-import { Paper, Typography, Select, MenuItem, Button } from "@mui/material";
+import { useState } from "react";
+import {
+  Paper,
+  Typography,
+  Select,
+  MenuItem,
+  Button,
+  FormControlLabel,
+  Switch,
+} from "@mui/material";
 import { PDFDocument } from "pdf-lib";
+import imageCompression from "browser-image-compression";
+import "./ImageConverter.css";
 
-const ImageConverter = ({ images, outputFormat, setOutputFormat }) => {
+const ImageConverter = ({ images, outputFormat, setOutputFormat,compress,setCompress }) => {
+
+  const handleCompressChange = () => {
+    setCompress(!compress);
+  };
+
   const handleOutputFormatChange = (event) => {
     setOutputFormat(event.target.value);
+  };
+
+  const compressImage = async (file) => {
+    try {
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 1, // You can adjust the maximum size
+        // maxWidthOrHeight: 800, // You can adjust the maximum width or height
+      });
+      return compressedFile;
+    } catch (error) {
+      console.error("Error compressing image:", error);
+      throw error;
+    }
   };
 
   const fileToArrBuffer = (file) =>
@@ -25,8 +53,8 @@ const ImageConverter = ({ images, outputFormat, setOutputFormat }) => {
   };
 
   const handleDownloadAll = async () => {
-    if (outputFormat === "pdf") {
-      try {
+    try {
+      if (outputFormat === "pdf") {
         const pdfDoc = await PDFDocument.create();
 
         for (let i = 0; i < images.length; i++) {
@@ -37,7 +65,7 @@ const ImageConverter = ({ images, outputFormat, setOutputFormat }) => {
           if (/jpe?g/i.test(file.type)) image = await pdfDoc.embedJpg(buffer);
           else if (/png/i.test(file.type))
             image = await pdfDoc.embedPng(buffer);
-          else throw Error("please choose a JPEG or PNG file to proceed");
+          else throw Error("Please choose a JPEG or PNG file to proceed");
 
           const page = pdfDoc.addPage();
 
@@ -66,29 +94,35 @@ const ImageConverter = ({ images, outputFormat, setOutputFormat }) => {
           await fetch("data:application/pdf;base64," + b64Chunk)
         ).blob();
         downloadFile(blob, "all_images.pdf");
-      } catch (error) {
-        console.error("Client error:", error);
+      } else {
+        for (let i = 0; i < images.length; i++) {
+          const img = images[i];
+          let compressedImg = img;
+
+          if (compress) {
+            compressedImg = await compressImage(img);
+          }
+
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(compressedImg);
+          a.download = `converted_image_${img?.name}.${outputFormat}`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(a.href);
+        }
       }
-    } else {
-      for (let i = 0; i < images.length; i++) {
-        const img = images[i];
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(img);
-        a.download = `converted_image_${img?.name}.${outputFormat}`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(a.href);
-      }
+    } catch (error) {
+      console.error("Client error:", error);
     }
   };
 
   return (
-    <Paper elevation={3} style={{ padding: "20px" }}>
+    <Paper elevation={3} className="main">
       <Typography variant="h5" gutterBottom>
         Image Converter
       </Typography>
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ marginBottom: "0px" }}>
         <Typography variant="body1" style={{ display: "inline" }}>
           Output Format:
         </Typography>
@@ -109,6 +143,14 @@ const ImageConverter = ({ images, outputFormat, setOutputFormat }) => {
         </Select>
       </div>
       {images.length > 0 && (
+        <FormControlLabel
+          control={
+            <Switch checked={compress} onChange={handleCompressChange} />
+          }
+          label="Compress"
+        />
+      )}
+      {images.length > 0 && (
         <Button
           variant="contained"
           color="primary"
@@ -119,7 +161,6 @@ const ImageConverter = ({ images, outputFormat, setOutputFormat }) => {
           Download All
         </Button>
       )}
-      <Typography variant="body1">Image Conversion Results:</Typography>
     </Paper>
   );
 };
