@@ -70,7 +70,42 @@ const Home = () => {
             overflow: "auto",
           }}
         >
-          HELLO WORLD
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
+          <div className="test_card"></div>
         </div>
       </div>
     </Sidebar>
