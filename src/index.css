@@ -11,20 +11,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #263338;
 }
 
 /* For Webkit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
+  border-radius: 16px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #333; /* Change this color to your desired blackish color */
-  border-radius: 4px;
+  background-color: #ffffff; /* Change this color to your desired blackish color */
+  border-radius: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Change this color to your desired background color */
+  background-color: none;
+  margin: 8px;
 }
 
 .activeLink {
@@ -39,8 +42,29 @@ body {
 }
 
 .defaultLink {
-  padding: 6px 8px;
+  padding: 6px 10px;
   display: flex;
   margin: 10px;
   border-radius: 8px;
+}
+
+.card {
+  background-color: #566870;
+  border-radius: 16px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 10px;
+}
+
+.header-skeleton {
+  background: rgb(0 0 0 / 24%);
+  border-radius: 5px;
+  padding: 12px;
+  display: flex;
+  transition: all 0.1s;
+  flex: 0 0 auto;
 }

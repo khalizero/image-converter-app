@@ -21,7 +21,7 @@ const Home = () => {
 
   return (
     <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar}>
-      <Container component="main" maxWidth="md" style={{ marginTop: "50px" }}>
+      {/* <Container component="main" maxWidth="md" style={{ marginTop: "50px" }}>
         <CssBaseline />
         <Paper
           elevation={3}
@@ -47,7 +47,32 @@ const Home = () => {
           outputFormat={outputFormat}
           compress={compress}
         />
-      </Container>
+      </Container> */}
+      <div className="grid">
+        <div className="header-skeleton">
+          <input
+            type="text"
+            placeholder="Search"
+            style={{
+              borderRadius: "4px",
+              padding: "8px 16px",
+              display: "flex",
+            }}
+          />
+        </div>
+        <div
+          className="body"
+          style={{
+            background: "rgb(0 0 0 / 24%)",
+            borderRadius: "5px",
+            padding: "12px",
+            flex: "1 1 auto",
+            overflow: "auto",
+          }}
+        >
+          HELLO WORLD
+        </div>
+      </div>
     </Sidebar>
   );
 };

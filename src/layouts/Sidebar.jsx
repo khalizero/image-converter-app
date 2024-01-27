@@ -2,29 +2,17 @@ import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import {
   Box,
-  CssBaseline,
   Drawer as MuiDrawer,
   AppBar as MuiAppBar,
-  Toolbar,
   List,
   Divider,
   IconButton,
-  Typography,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
 
-import {
-  Menu,
-  ChevronLeft,
-  ChevronRight,
-  Inbox,
-  Mail,
-  Brightness7,
-  Brightness4,
-} from "@mui/icons-material";
+import { ChevronLeft, ChevronRight, Inbox } from "@mui/icons-material";
 import { useThemeContext } from "../context/ThemeContext";
 import { NavLink } from "react-router-dom";
 
@@ -33,7 +21,8 @@ const drawerWidth = 240;
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    overflow: "auto",
+    padding: theme.spacing(2),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -44,7 +33,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: 0,
     }),
   })
 );
@@ -123,42 +111,22 @@ const Sidebar = ({ children }) => {
   const handleDrawerClose = () => setOpen(false);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <Menu />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Image Conversion
-          </Typography>
-          <IconButton
-            color="inherit"
-            aria-label="toggle dark mode"
-            onClick={toggleDarkMode}
-            sx={{ ml: "auto" }}
-          >
-            {darkMode ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+    <Box
+      sx={{ display: "flex", gap: "12px", padding: "8px", height: "100vh" }}
+    >
       <Drawer
+        className="card"
         sx={{
           width: drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            width: drawerWidth,
+            width: "100%",
+            background: "none",
+            position: "static",
             boxSizing: "border-box",
             ...(open
               ? { transition: "width 0.2s" }
-              : { overflowX: "hidden", width: 60, transition: "width 0.2s" }),
+              : { overflowX: "hidden", transition: "width 0.2s" }),
           },
         }}
         variant="permanent"
@@ -166,8 +134,8 @@ const Sidebar = ({ children }) => {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
+          <IconButton onClick={open ? handleDrawerClose : handleDrawerOpen}>
+            {open ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -187,7 +155,9 @@ const Sidebar = ({ children }) => {
           </NavLink>
         </List>
       </Drawer>
-      <Main open={open}>{children}</Main>
+      <Main open={open} className="card">
+        {children}
+      </Main>
     </Box>
   );
 };
